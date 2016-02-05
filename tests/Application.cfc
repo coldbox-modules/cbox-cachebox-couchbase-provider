@@ -1,34 +1,22 @@
-﻿<!-----------------------------------------------------------------------
-********************************************************************************
-Copyright 2005-2007 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
-www.coldbox.org | www.luismajano.com | www.ortussolutions.com
-********************************************************************************
+/**
+* Copyright Since 2005 Ortus Solutions, Corp
+* www.coldbox.org | www.luismajano.com | www.ortussolutions.com | www.gocontentbox.org
+**************************************************************************************
+*/
+component{
+	this.name = "A TestBox Runner Suite " & hash( getCurrentTemplatePath() );
+	// any other application.cfc stuff goes below:
+	this.sessionManagement = true;
 
-Author     :	Luis Majano
-Date        :	10/16/2007
-Description :
-	This is the Application.cfc for usage withing the ColdBox Framework.
-	Make sure that it extends the coldbox object:
-	coldbox.system.Coldbox
-	
-	So if you have refactored your framework, make sure it extends coldbox.
------------------------------------------------------------------------>
-<cfcomponent output="false">
-	<!--- APPLICATION CFC PROPERTIES --->
-	<cfset this.name = "TestingSuite" & hash(getCurrentTemplatePath())> 
-	<cfset this.sessionManagement = true>
-	<cfset this.sessionTimeout = createTimeSpan(0,0,30,0)>
-	<cfset this.setClientCookies = true>
-	
-	<cfscript>
-	// FILL OUT: THE LOCATION OF THE CONTENTBOX MODULE
-	rootPath = replacenocase(replacenocase(getDirectoryFromPath(getCurrentTemplatePath()),"tests\",""),"tests/","");
-	// Mappings
-	this.mappings[ "/couchbaseApp"] = rootPath;
-	
-	public boolean function onRequestStart(String targetPage){
+	// any mappings go here, we create one that points to the root called test.
+	this.mappings[ "/tests" ] = getDirectoryFromPath( getCurrentTemplatePath() );
+	rootPath = REReplaceNoCase( this.mappings[ "/tests" ], "tests(\\|/)", "" );
+	this.mappings[ "/root" ]   = rootPath;
+
+	// any orm definitions go here.
+
+	// request start
+	public boolean function onRequestStart( String targetPage ){
 		return true;
 	}
-	</cfscript>
-	
-</cfcomponent>
+}

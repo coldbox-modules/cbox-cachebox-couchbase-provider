@@ -1,0 +1,28 @@
+{
+	"name" 				: "Cachebox Couchbase Provider Module for Coldbox",
+	"version"			: "2.0.0",
+	"author" 			: "Luis Majano <lmajano@ortussolutions.com",
+	"slug"				: "couchbase-provider",
+	"type"				: "modules",
+	"homepage"			: "http://wiki.coldbox.org/wiki/CacheBox-Couchbase.cfm",
+	"documentation"		: "http://wiki.coldbox.org/wiki/CacheBox-Couchbase.cfm",
+	"repository"		: { "type" : "git", "url" : "https://github.com/ColdBox/cachebox-couchbase" },
+	"shortDescription"	: "Allows for the use of Couchbase as a Cachebox provider",
+	"license"			: [ 
+		{ 
+			"type" : "Apache2", 
+			"url" : "http://www.apache.org/licenses/LICENSE-2.0.html" 
+		} 
+	],
+	"contributors"		: [
+		"Brad Wood <bdw429s@gmail.com>", 
+		"Jon Clausen <jon_clausen@silowebworks.com>"
+	],
+	"engines"	: [
+		{ "type" : "railo", "version" : ">4.1" },
+		{ "type" : "adobe", "version" : ">9.02" },
+	],
+	"dependencies" 	:{
+		"cbjavaloader" : "1.0.0"
+	}
+}

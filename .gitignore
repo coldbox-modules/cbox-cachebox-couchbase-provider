@@ -216,3 +216,8 @@ pip-log.txt
 
 #Mr Developer
 .mr.developer.cfg
+
+#Commandbox Installations
+coldbox
+testbox
+modules/cbjavaloader
