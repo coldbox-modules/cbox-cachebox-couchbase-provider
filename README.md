@@ -1,5 +1,5 @@
 # Coldbox Couchbase Provider Module
-The CacheBox Couchbase Provider is an Coldbox module that allows you to connect CacheBox to a Couchbase cluster and then leverage that cluster in your ColdBox applications or any application that leverages CacheBox in its standalone version.
+The Couchbase Provider for Cachebox is a Coldbox module that allows you to connect CacheBox to a Couchbase cluster and leverage that cluster in your ColdBox applications or any application that leverages CacheBox in its standalone version.
 
 ##LICENSE
 Apache License, Version 2.0.
