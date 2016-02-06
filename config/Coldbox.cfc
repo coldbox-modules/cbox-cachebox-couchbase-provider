@@ -105,7 +105,6 @@
 		Couchbase = {
 			caches : { 
 			    "template" : {
-			        provider:"couchbaseApp.model.providers.Couchbase.CouchbaseColdboxProvider",
 					properties : {
 					    objectDefaultTimeout : 15,
 					    opQueueMaxBlockTime : 5000,
@@ -118,7 +117,6 @@
 					}
 			    },
 			   "couchBase" : {
-			        provider:"couchbaseApp.model.providers.Couchbase.CouchbaseProvider",
 			        properties : {
 			            objectDefaultTimeout : 15,
 			            opQueueMaxBlockTime : 5000,
