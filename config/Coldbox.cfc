@@ -6,7 +6,7 @@
 		// coldbox directives
 		coldbox = {
 			//Application Setup
-			appName 				= "Your app name here",
+			appName 				= "Couchbase Provider Shell",
 			eventName 				= "event",
 
 			//Development Settings
@@ -15,9 +15,9 @@
 
 			//Implicit Events
 			defaultEvent			= "",
-			requestStartHandler		= "Main.onRequestStart",
+			requestStartHandler		= "",
 			requestEndHandler		= "",
-			applicationStartHandler = "Main.onAppInit",
+			applicationStartHandler = "",
 			applicationEndHandler	= "",
 			sessionStartHandler 	= "",
 			sessionEndHandler		= "",
