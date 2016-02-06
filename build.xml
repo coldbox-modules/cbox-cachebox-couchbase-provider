@@ -3,7 +3,7 @@
 	<!-- dynamic values for build -->
 	<tstamp prefix="start"/>
 	<property name="project.name"	value="CacheBox.Couchbase" />
-	<property name="app.root"		value="model/providers/Couchbase" />
+	<property name="app.root"		value="modules/couchbase-provider" />
 	<property name="src.docs"		value="http://wiki.coldbox.org/wiki/CacheBox-Couchbase/HTML.cfm" />
 	
 	<!-- Init -->
