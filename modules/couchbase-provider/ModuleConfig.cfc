@@ -74,8 +74,6 @@ component {
 	* Fired when the module is unregistered and unloaded
 	*/
 	function onUnload(){
-		//evict our configured caches and cleanup
-
 
 	}
 
