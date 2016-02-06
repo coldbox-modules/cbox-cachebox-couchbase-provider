@@ -50,10 +50,6 @@ component {
 		
 		jLoader.appendPaths( modulePath & '/lib/' );
 
-
-		binder.map( "Provider@CouchbaseProvider" )
-			.to("CouchbaseProvider.models.Couchbase.ColdboxProvider");
-
 		binder.map( "Stats@CouchbaseProvider" )
 			.to("CouchbaseProvider.models.Couchbase.Stats")
 			.noInit();
@@ -67,9 +63,9 @@ component {
 
 			Cachebox.getConfig().cache(
 				cacheName,
-				cacheConfig.provider,
+				"CouchbaseProvider.models.Couchbase.ColdboxProvider",
 				cacheConfig.properties
-			)
+			);
 		}
 
 	}

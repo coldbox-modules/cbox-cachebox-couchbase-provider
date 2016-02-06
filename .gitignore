@@ -217,6 +217,10 @@ pip-log.txt
 #Mr Developer
 .mr.developer.cfg
 
+#API Docs
+apidocs/Couchbase-Provider-APIDocs
+apidocs/docbox
+
 #Commandbox Installations
 coldbox
 testbox

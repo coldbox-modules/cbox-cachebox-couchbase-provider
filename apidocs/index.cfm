@@ -1,14 +1,13 @@
-<cfparam name="url.version" default="0">
-<cfparam name="url.path" 	default="#expandPath( "./JavaLoader-APIDocs" )#">
+<cfparam name="url.version" default="2.0.0">
+<cfparam name="url.path" 	default="#expandPath( "./Couchbase-Provider-APIDocs" )#">
 <cfscript>
-	docName = "JavaLoader-APIDocs";
-	base = expandPath( "/javaloader" );
-
-	colddoc 	= new ColdDoc();
-	strategy 	= new colddoc.strategy.api.HTMLAPIStrategy( url.path, "JavaLoader v#url.version#" );
-	colddoc.setStrategy( strategy );
-
-	colddoc.generate( inputSource=base, outputDir=url.path, inputMapping="javaloader" );
+	docName = "Couchbase-Provider-APIDocs";
+	base 	= expandPath( "/modules/couchbase-provider" );
+	docbox 	= new docbox.DocBox( properties = {
+		projectTitle 	= "Couchbase Cachebox Provider Module v#url.version#",
+		outputDir 		= url.path
+	} );
+	docbox.generate( source=base, mapping="CouchbaseProvider" );
 </cfscript>
 
 <!---
@@ -20,4 +19,6 @@
 <h1>Done!</h1>
 <a href="#docName#/index.html">Go to Docs!</a>
 </cfoutput>
+
+
 
