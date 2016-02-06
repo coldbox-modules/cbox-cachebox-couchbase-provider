@@ -16,7 +16,7 @@ component name="CouchbaseStats" implements="coldbox.system.cache.util.ICacheStat
 	/**
 	* Constructor
 	*/
-	CouchbaseStats function init( cacheProvider ) output=false{
+	function init( cacheProvider ) output=false{
 		
 		setCacheProvider( arguments.cacheProvider );
 		

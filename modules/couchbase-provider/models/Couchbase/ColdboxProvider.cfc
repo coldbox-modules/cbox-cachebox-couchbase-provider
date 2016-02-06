@@ -11,12 +11,12 @@ cluster of Couchbase nodes for a distributed and highly scalable cache store.
 This provider is for use in a ColdBox application.
 
 */
-component name="CouchbaseColdboxProvider" serializable="false" extends="Provider" implements="coldbox.system.cache.IColdboxApplicationCache"{
+component name="CouchbaseColdboxProvider" serializable="false" extends="Provider" implements="coldbox.system.cache.IColdboxApplicationCache" accessors=true{
 
 	/**
 	* Constructor
 	*/
-	CouchbaseColdboxProvider function init() output=false{
+	function init() output=false{
 		super.init();
 		
 		// Cache Prefixes

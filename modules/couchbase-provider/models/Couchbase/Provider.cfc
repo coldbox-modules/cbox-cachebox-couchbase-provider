@@ -10,12 +10,15 @@ This CacheBox provider communicates with a single Couchbase node or a
 cluster of Couchbase nodes for a distributed and highly scalable cache store.
 
 */
-component name="CouchbaseProvider" serializable="false" implements="coldbox.system.cache.ICacheProvider"{
+component name="CouchbaseProvider" serializable="false" implements="coldbox.system.cache.ICacheProvider" accessors=true{
+	property name="JavaLoader" inject="Loader@cbjavaloader";
 
 	/**
     * Constructor
     */
-	CouchbaseProvider function init() {
+	function init() {
+		if(!structKeyExists(application,'wirebox')) throw "Wirebox is required to use this provider";
+		if(isNull(getJavaLoader())) application.wirebox.autowire(this);
 		// prepare instance data
 		instance = {
 			// provider name
@@ -152,28 +155,6 @@ component name="CouchbaseProvider" serializable="false" implements="coldbox.syst
 	}
 				
 	/**
-    * get the JavaLoader
-    */
-    any function getJavaLoader() {
-		return server[ instance.javaLoaderID ];
-	}
-	
-	/**
-	* Load JavaLoader
-	*/
-	private function loadJavaLoader(required paths){
-		// verify if not in server scope
-		if( ! structKeyExists( server, instance.javaLoaderID ) ){
-			lock name="#instance.javaLoaderID#" throwOnTimeout="true" timeout="15" type="exclusive"{
-				if( ! structKeyExists( server, instance.javaLoaderID ) ){
-					// Create and load
-					server[ instance.javaLoaderID ] = new coldbox.system.core.javaloader.JavaLoader( arguments.paths ).init( arguments.paths );
-				}
-			} 
-		} // end if static server check
-	}
-	
-	/**
     * configure the cache for operation
     */
     void function configure() output="false" {
@@ -193,25 +174,7 @@ component name="CouchbaseProvider" serializable="false" implements="coldbox.syst
 			instance.logger.debug("Starting up Provider Cache: #getName()# with configuration: #config.toString()#");
 			
 			// Validate the configuration
-			validateConfiguration();
-		
-			try{
-				// Load up javaLoader
-				loadJavaLoader( [
-					'#config.jarPath#commons-codec-1.5.jar',
-					'#config.jarPath#couchbase-client-1.1.7.jar',
-					'#config.jarPath#httpcore-4.1.1.jar',
-					'#config.jarPath#httpcore-nio-4.1.1.jar',
-					'#config.jarPath#jettison-1.1.jar',
-					'#config.jarPath#netty-3.5.5.Final.jar',
-					'#config.jarPath#spymemcached-2.9.0.jar'
-				]);
-			}
-			catch(any e) {
-				e.printStackTrace();
-				instance.logger.error("Error Loading Couchbase Client Jars: #e.message# #e.detail#", e );
-				throw(message='Error Loading Couchbase Client Jars', detail=e.message & " " & e.detail);
-			}		
+			validateConfiguration();	
 			
 			try{
 			
@@ -235,7 +198,6 @@ component name="CouchbaseProvider" serializable="false" implements="coldbox.syst
 				couchbaseClientClass = getJavaLoader().create("com.couchbase.client.CouchbaseClient");
 			}
 			catch(any e) {
-				e.printStackTrace();
 				instance.logger.error("There was an error creating the CouchbaseClient library: #e.message# #e.detail#", e );
 				throw(message='There was an error creating the CouchbaseClient library', detail=e.message & " " & e.detail);
 			}
@@ -246,7 +208,6 @@ component name="CouchbaseProvider" serializable="false" implements="coldbox.syst
 				setCouchbaseClient( CouchbaseClientClass.init( CouchbaseConnectionFactory ) );
 			}
 			catch(any e) {
-				e.printStackTrace();
 				instance.logger.error("There was an error connecting to the Couchbase server. Config: #serializeJSON(config)#: #e.message# #e.detail#", e );
 				throw(message='There was an error connecting to the Couchbase server. Config: #serializeJSON(config)#', detail=e.message & " " & e.detail);
 			}

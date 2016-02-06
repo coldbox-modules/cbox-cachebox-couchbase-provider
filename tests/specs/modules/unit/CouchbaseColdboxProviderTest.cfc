@@ -10,7 +10,7 @@ Description :
 **/
 component extends="CouchbaseProviderTest"{
 	
-	this.loadColdBox = false;
+	this.loadColdBox = true;
 
 	function setup(){
 		super.setup();
@@ -41,7 +41,7 @@ component extends="CouchbaseProviderTest"{
 		
 		// Create Provider
 		// Find a way to make the "couchbaseApp" mapping dynamic for people (like Brad) running this in the root :)
-		cache = getMockBox().createMock("couchbaseApp.model.providers.Couchbase.CouchbaseColdboxProvider").init();
+		cache = getMockBox().createMock("CouchbaseProvider.models.Couchbase.ColdboxProvider").init();
 		// Decorate it
 		cache.setConfiguration( config );
 		cache.setCacheFactory( mockFactory );

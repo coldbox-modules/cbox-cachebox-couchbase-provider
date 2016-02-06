@@ -58,6 +58,20 @@ component {
 			.to("CouchbaseProvider.models.Couchbase.Stats")
 			.noInit();
 
+		var CacheBox = Wirebox.getCachebox();
+
+		var CouchbaseCaches = VARIABLES.CouchbaseConfig.caches;
+
+		for( var cacheName in CouchbaseCaches ){
+			var cacheConfig = CouchbaseCaches[cacheName];
+
+			Cachebox.getConfig().cache(
+				cacheName,
+				cacheConfig.provider,
+				cacheConfig.properties
+			)
+		}
+
 	}
 
 	/**
@@ -68,7 +82,6 @@ component {
 
 
 	}
-
 
 	private function parseParentSettings(){
 
@@ -99,7 +112,7 @@ component {
 
 	private function getDefaultCacheConfig( required string bucketName = "default" ){
 		var defaultConfig = {
-			"provider":"Provider@CouchbaseProvider",
+			"provider":"CouchbaseProvider.Couchbase.ColdboxProvider",
 			"properties":{
 				objectDefaultTimeout:120,
 				objectDefaultLastAccessTimeout:30,
