@@ -1,70 +1,50 @@
-﻿component {
-
+﻿component{
+	
+	/**
+	* Configure CacheBox for ColdBox Application Operation
+	*/
 	function configure(){
-	    // The CacheBox configuration structure DSL
-	    cacheBox = {
-	        // LogBox Configuration file
-	        logBoxConfig = "coldbox.system.cache.config.LogBox", 
-	        
-	        // Scope registration, automatically register the cachebox factory instance on any CF scope
-	        // By default it registers itself on application scope
-	        scopeRegistration = {
-	            enabled = true,
-	            scope   = "application", // valid CF scope
-	            key     = "cacheBox"
-	        },
-	        
-	        // The defaultCache has an implicit name of "default" which is a reserved cache name
-	        // It also has a default provider of cachebox which cannot be changed.
-	        // All timeouts are in minutes
-	        // Please note that each object store could have more configuration properties
-	        defaultCache = {
-	            objectDefaultTimeout = 60,
-	            objectDefaultLastAccessTimeout = 30,
-	            useLastAccessTimeouts = true,
-	            reapFrequency = 2,
-	            freeMemoryPercentageThreshold = 0,
-	            evictionPolicy = "LRU",
-	            evictCount = 1,
-	            maxObjects = 200,
-	            // Our default store is the concurrent soft reference
-	            objectStore = "ConcurrentSoftReferenceStore",
-	            // This switches the internal provider from normal cacheBox to coldbox enabled cachebox
-	            coldboxEnabled = false
-	        },
-	        
-	        // Register all the custom named caches you like here
-	        caches = { 
-		        template = {
-	                provider="couchbaseApp.model.providers.Couchbase.CouchbaseColdboxProvider",
-			       properties = {
-	                    objectDefaultTimeout = 15,
-	                    opQueueMaxBlockTime = 5000,
-				        opTimeout = 5000,
-				        timeoutExceptionThreshold = 5000,
-				        ignoreCouchBaseTimeouts = true,				
-			        	bucket="default",
-			        	password="",
-			        	servers="127.0.0.1:8091"
-			        }
-	            },
-			   couchBase = {
-			        provider="couchbaseApp.model.providers.Couchbase.CouchbaseProvider",
-			        properties = {
-	                    objectDefaultTimeout = 15,
-	                    opQueueMaxBlockTime = 5000,
-				        opTimeout = 5000,
-				        timeoutExceptionThreshold = 5000,
-				        ignoreCouchBaseTimeouts = true,				
-			        	bucket="default",
-			        	password="",
-			        	servers="127.0.0.1:8091"
-			        }
-				}
+		
+		// The CacheBox configuration structure DSL
+		cacheBox = {
+			// LogBox config already in coldbox app, not needed
+			// logBoxConfig = "coldbox.system.web.config.LogBox", 
+			
+			// The defaultCache has an implicit name "default" which is a reserved cache name
+			// It also has a default provider of cachebox which cannot be changed.
+			// All timeouts are in minutes
+			defaultCache = {
+				objectDefaultTimeout = 120, //two hours default
+				objectDefaultLastAccessTimeout = 30, //30 minutes idle time
+				useLastAccessTimeouts = true,
+				reapFrequency = 5,
+				freeMemoryPercentageThreshold = 0,
+				evictionPolicy = "LRU",
+				evictCount = 1,
+				maxObjects = 300,
+				objectStore = "ConcurrentStore", //guaranteed objects
+				coldboxEnabled = true
 			},
-	        // Register all event listeners here, they are created in the specified order
-	        listeners = []      
-	    };
-	}   
+			
+			// Register all the custom named caches you like here
+			caches = {
+				// Named cache for all coldbox event and view template caching
+				template = {
+					provider = "coldbox.system.cache.providers.CacheBoxColdBoxProvider",
+					properties = {
+						objectDefaultTimeout = 120,
+						objectDefaultLastAccessTimeout = 30,
+						useLastAccessTimeouts = true,
+						freeMemoryPercentageThreshold = 0,
+						reapFrequency = 5,
+						evictionPolicy = "LRU",
+						evictCount = 2,
+						maxObjects = 300,
+						objectStore = "ConcurrentSoftReferenceStore" //memory sensitive
+					}
+				}		
+			}		
+		};
+	}	
 
 }
