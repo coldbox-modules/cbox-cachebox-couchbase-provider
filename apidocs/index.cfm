@@ -1,13 +1,13 @@
-<cfparam name="url.version" default="2.0.0">
-<cfparam name="url.path" 	default="#expandPath( "./Couchbase-Provider-APIDocs" )#">
+<cfparam name="url.version" default="0">
+<cfparam name="url.path" 	default="#expandPath( "./#request.moduleName#-APIDocs" )#">
 <cfscript>
-	docName = "Couchbase-Provider-APIDocs";
-	base 	= expandPath( "/modules/couchbase-provider" );
+	docName = "#request.moduleName#-APIDocs";
+	base 	= expandPath( "/#request.moduleName#" );
 	docbox 	= new docbox.DocBox( properties = {
-		projectTitle 	= "Couchbase Cachebox Provider Module v#url.version#",
+		projectTitle 	= "#request.moduleName# v#url.version#",
 		outputDir 		= url.path
 	} );
-	docbox.generate( source=base, mapping="CouchbaseProvider" );
+	docbox.generate( source=base, mapping=request.moduleName );
 </cfscript>
 
 <!---
@@ -19,6 +19,4 @@
 <h1>Done!</h1>
 <a href="#docName#/index.html">Go to Docs!</a>
 </cfoutput>
-
-
 

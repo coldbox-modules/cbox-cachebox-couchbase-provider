@@ -14,7 +14,7 @@
 			handlersIndexAutoReload = true,
 
 			//Implicit Events
-			defaultEvent			= "",
+			defaultEvent			= "main.index",
 			requestStartHandler		= "",
 			requestEndHandler		= "",
 			applicationStartHandler = "",
@@ -31,12 +31,11 @@
 			layoutsExternalLocation 	= "",
 			handlersExternalLocation  	= "",
 			requestContextDecorator 	= "",
-			controllerDecorator			= "",
 
 			//Error/Exception Handling
-			exceptionHandler		= "main.onException",
+			exceptionHandler		= "",
 			onInvalidEvent			= "",
-			customErrorTemplate		= "",
+			customErrorTemplate		= "/coldbox/system/includes/BugReport.cfm",
 
 			//Application Aspects
 			handlerCaching 			= false,
@@ -46,48 +45,28 @@
 
 		// custom settings
 		settings = {
-
-		};
-
-		// environment settings, create a detectEnvironment() method to detect it yourself.
-		// create a function with the name of the environment so it can be executed if that environment is detected
-		// the value of the environment is a list of regex patterns to match the cgi.http_host.
-		environments = {
-			development = "localhost,^lucee"
 		};
 
 		// Module Directives
 		modules = {
-			//Turn to false in production
-			autoReload = false,
-			// An array of modules names to load, empty means all of them
-			include = [],
-			// An array of modules names to NOT load, empty means none
-			exclude = []
+			//Turn to false in production, on for dev
+			autoReload = false
 		};
 
 		//LogBox DSL
 		logBox = {
 			// Define Appenders
 			appenders = {
-				coldboxTracer = { class="coldbox.system.logging.appenders.ConsoleAppender" }
+				files={class="coldbox.system.logging.appenders.RollingFileAppender",
+					properties = {
+						filename = "app", filePath="/#appMapping#/logs"
+					}
+				}
 			},
 			// Root Logger
-			root = { levelmax="INFO", appenders="*" },
+			root = { levelmax="DEBUG", appenders="*" },
 			// Implicit Level Categories
 			info = [ "coldbox.system" ]
-		};
-
-		//Layout Settings
-		layoutSettings = {
-			defaultLayout = "",
-			defaultView   = ""
-		};
-
-		//Interceptor Settings
-		interceptorSettings = {
-			throwOnInvalidStates = false,
-			customInterceptionPoints = ""
 		};
 
 		//Register interceptors as an array, we need order
@@ -98,46 +77,43 @@
 			}
 		];
 
-
-		/**
-		* Couchbase config settings
-		**/
-		Couchbase = {
-			caches : { 
-			    "template" : {
-					properties : {
-					    objectDefaultTimeout : 15,
-					    opQueueMaxBlockTime : 5000,
-					    opTimeout : 5000,
-					    timeoutExceptionThreshold : 5000,
-					    ignoreCouchBaseTimeouts : true,				
-						bucket:"default",
-						password:"",
-						servers:"127.0.0.1:8091"
+		moduleSettings = {
+			/**
+			* Couchbase provider settings
+			**/
+			couchbaseProvider = {
+				caches : { 
+					"template" : {
+						provider 	: "couchbaseprovider.models.CouchbaseColdBoxProvider",
+						properties 	: {
+							objectDefaultTimeout : 15,
+							opQueueMaxBlockTime : 5000,
+							opTimeout : 5000,
+							timeoutExceptionThreshold : 5000,
+							ignoreCouchBaseTimeouts : true,				
+							bucket:"default",
+							password:"",
+							servers:"127.0.0.1:8091"
+						}
+					},
+					"couchbase" : {
+						provider 	: "couchbaseprovider.models.CouchbaseProvider",
+						properties 	: {
+							objectDefaultTimeout : 15,
+							opQueueMaxBlockTime : 5000,
+							opTimeout : 5000,
+							timeoutExceptionThreshold : 5000,
+							ignoreCouchBaseTimeouts : true,				
+							bucket:"default",
+							password:"",
+							servers:"127.0.0.1:8091"
+						}
 					}
-			    },
-			   "couchBase" : {
-			        properties : {
-			            objectDefaultTimeout : 15,
-			            opQueueMaxBlockTime : 5000,
-				        opTimeout : 5000,
-				        timeoutExceptionThreshold : 5000,
-				        ignoreCouchBaseTimeouts : true,				
-			        	bucket:"default",
-			        	password:"",
-			        	servers:"127.0.0.1:8091"
-			        }
-				}
-			}    
+				}    
+			}
 		};
+
 	}
 
-
-	/**
-	* Development environment
-	*/
-	function development(){
-		coldbox.customErrorTemplate = "/coldbox/system/includes/BugReport.cfm";
-	}
 
 }

@@ -2,17 +2,25 @@
     "name":"Couchbase Provider Builder",
     "version":"2.0.0",
     "slug":"couchbase-provider-shell",
-    
     "private":false,
-
     "dependencies":{
-        "coldbox":"4.1.0+00002",
-        "cbjavaloader":"1.0.0",
-        "testbox":"2.2.0"
+        "coldbox":"^4.3.0",
+        "cfcouchbase":"^2.0.0",
+        "workbench":"git+https://github.com/Ortus-Solutions/unified-workbench.git"
+    },
+    "devDependencies":{
+        "testbox":"^2.5.0"
+    },
+    "testbox":{
+        "runner":"http://localhost:49616"
+    },
+    "scripts":{
+        "postVersion":"recipe workbench/bump.boxr"
     },
     "installPaths":{
         "coldbox":"coldbox",
-        "testbox":"testbox",
-        "cbjavaloader":"modules/cbjavaloader"
+        "cfcouchbase":"modules/cfcouchbase",
+        "workbench":"workbench/workbench",
+        "testbox":"testbox"
     }
 }

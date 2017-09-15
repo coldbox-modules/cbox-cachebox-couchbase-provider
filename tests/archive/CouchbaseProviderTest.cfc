@@ -8,7 +8,7 @@ Date        :	9/3/2007
 Description :
 	Request service Test
 **/
-component extends="coldbox.system.testing.BaseTestCase"{
+component extends="coldbox.system.testing.BaseTestCase" appMapping="/root"{
 	
 	this.loadColdBox = true;
 

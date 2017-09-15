@@ -1,18 +1,17 @@
-# Coldbox Couchbase Provider Module
+# ColdBox Couchbase Provider Module
 The Couchbase Provider for Cachebox is a Coldbox module that allows you to connect CacheBox to a Couchbase cluster and leverage that cluster in your ColdBox applications or any application that leverages CacheBox in its standalone version.
 
-##LICENSE
+## LICENSE
 Apache License, Version 2.0.
 
-##IMPORTANT LINKS
-- Documentation: http://wiki.coldbox.org/wiki/CacheBox-Couchbase.cfm
-- Source: https://github.com/ColdBox/cachebox-couchbase
-- ForgeBox: http://forgebox.io/view/cachebox-prorvider
+## IMPORTANT LINKS
+- Documentation: https://github.com/coldbox-modules/cbox-cachebox-couchbase-provider/wiki
+- Source: https://github.com/coldbox-modules/cbox-cachebox-couchbase-provider
+- ForgeBox: http://forgebox.io/view/couchbase-provider
 
-##SYSTEM REQUIREMENTS
+## SYSTEM REQUIREMENTS
 - Lucee 4.5+
-- Railo 4+ (Deprecated)
-- ColdFusion 9+
+- ColdFusion 11+
 
 ## INSTRUCTIONS
 
@@ -22,54 +21,53 @@ Just drop into your **modules** folder or use the box-cli to install
 
 
 ## Settings
-You can add a `Couchbase` structure of settings to your `ColdBox.cfc` to configure custom caches:
+You can add a `couchbase` structure to your `moduleSettings` structure to your `ColdBox.cfc` to configure custom caches:
 
 ```js
-//The global Couchbase settings config
-Couchbase = {
-	// Register all the custom named caches you like here
-    caches : { 
-		"template" : {
-			properties : {
-			    objectDefaultTimeout : 15,
-			    opQueueMaxBlockTime : 5000,
-			    opTimeout : 5000,
-			    timeoutExceptionThreshold : 5000,
-			    ignoreCouchBaseTimeouts : true,				
-				bucket:"default",
-				username:"",
-				password:"",
-				servers:"127.0.0.1:8091"
+moduleSettings = {
+
+	// Provider Configuration Settings
+	couchbase = {
+		// Register all the custom named caches you like here using CacheBox Syntax
+		// https://cachebox.ortusbooks.com/content/cachebox_configuration/caches.html
+		caches : { 
+			"template" : {
+				properties : {
+					objectDefaultTimeout : 15,
+					opQueueMaxBlockTime : 5000,
+					opTimeout : 5000,
+					timeoutExceptionThreshold : 5000,
+					ignoreCouchBaseTimeouts : true,				
+					bucket:"default",
+					username:"",
+					password:"",
+					servers:"127.0.0.1:8091"
+				}
+			},
+			"couchBase" : {
+				properties : {
+					objectDefaultTimeout : 15,
+					opQueueMaxBlockTime : 5000,
+					opTimeout : 5000,
+					timeoutExceptionThreshold : 5000,
+					ignoreCouchBaseTimeouts : true,				
+					bucket:"default",
+					username:"",
+					password:"",
+					servers:"127.0.0.1:8091"
+				}
 			}
-		},
-		"couchBase" : {
-		    properties : {
-		        objectDefaultTimeout : 15,
-		        opQueueMaxBlockTime : 5000,
-		        opTimeout : 5000,
-		        timeoutExceptionThreshold : 5000,
-		        ignoreCouchBaseTimeouts : true,				
-		    	bucket:"default",
-		    	username:"",
-		    	password:"",
-		    	servers:"127.0.0.1:8091"
-		    }
 		}
 	}
 }
-
 ```
-
-
-
-## Usage
-You can read more about using this module here: https://github.com/ColdBox/cachebox-couchbase/wiki
 
 ********************************************************************************
 Copyright Since 2005 ColdBox Framework by Luis Majano and Ortus Solutions, Corp
 www.coldbox.org | www.luismajano.com | www.ortussolutions.com
 ********************************************************************************
-####HONOR GOES TO GOD ABOVE ALL
+
+#### HONOR GOES TO GOD ABOVE ALL
 Because of His grace, this project exists. If you don't like this, then don't read it, its not for you.
 
 >"Therefore being justified by faith, we have peace with God through our Lord Jesus Christ:
@@ -79,5 +77,5 @@ And patience, experience; and experience, hope:
 And hope maketh not ashamed; because the love of God is shed abroad in our hearts by the 
 Holy Ghost which is given unto us. ." Romans 5:5
 
-###THE DAILY BREAD
+### THE DAILY BREAD
  > "I am the way, and the truth, and the life; no one comes to the Father, but by me (JESUS)" Jn 14:1-12

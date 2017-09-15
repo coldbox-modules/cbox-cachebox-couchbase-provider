@@ -1,20 +1,14 @@
 {
-    "name":"Couchbase Provider Module Docs",
-    "version":"2.0.0",
+    "name":"API Docs",
+    "version":"1.0.0",
     "slug":"module-apidocs",
-    "private":true,
-    "defaultPort":8511,
     "dependencies":{
-        "docbox":"https://github.com/Ortus-Solutions/DocBox/archive/v2.0.4.zip"
+        "docbox":"^2.0.7"
     },
     "devDependencies":{
         
     },
     "installPaths":{
         "docbox":"docbox"
-    },
-    "ignore":[
-        "**/.*",
-        "tests"
-    ]
+    }
 }
