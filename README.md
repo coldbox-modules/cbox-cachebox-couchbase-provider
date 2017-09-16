@@ -1,3 +1,8 @@
+[![Hex.pm](https://img.shields.io/hexpm/l/plug.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![TestBox](https://img.shields.io/badge/tested_with-TestBox-blue.svg)](https://ortussolutions.com/products/testbox)
+[![ColdBox](https://img.shields.io/badge/ColdBox%20Module-Ready-green.svg)](https://ortussolutions.com/products/coldbox)
+[![Build Status](https://travis-ci.org/coldbox-modules/cbox-cachebox-couchbase-provider.svg?branch=master)](https://travis-ci.org/coldbox-modules/cbox-cachebox-couchbase-provider)
+
 # CacheBox Couchbase Provider Module
 
 The Couchbase Provider for Cachebox is a ColdBox 4.x module that allows you to connect CacheBox to a Couchbase cluster and leverage that cluster in your ColdBox applications.
@@ -12,6 +17,7 @@ Apache License, Version 2.0.
 - ForgeBox: https://forgebox.io/view/couchbase-cachebox-provider
 - Couchbase Server: https://www.couchbase.com
 - CFCouchbaseSDK Configuration Properties: http://apidocs.ortussolutions.com.s3.amazonaws.com/cfcouchbase/2.0.0/cfcouchbase/config/CouchbaseConfig.html
+
 ## SYSTEM REQUIREMENTS
 - Lucee 4.5+
 - ColdFusion 11+
