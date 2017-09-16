@@ -18,9 +18,9 @@
         "postVersion":"recipe workbench/bump.boxr"
     },
     "installPaths":{
-        "coldbox":"coldbox",
-        "cfcouchbase":"modules/cfcouchbase",
-        "workbench":"workbench/workbench",
-        "testbox":"testbox"
+        "coldbox":"coldbox/",
+        "cfcouchbase":"modules/cfcouchbase/",
+        "testbox":"testbox/",
+        "workbench":"workbench"
     }
 }
