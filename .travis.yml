@@ -6,7 +6,7 @@ notifications:
 
 env:
   global:
-    - MODULE_ID=couchbase-provider
+    - MODULE_ID=couchbase-cachebox-provider
   matrix:
     - ENGINE=lucee@4.5
     - ENGINE=lucee@5

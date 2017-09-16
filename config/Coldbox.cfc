@@ -81,15 +81,11 @@
 			/**
 			* Couchbase provider settings
 			**/
-			couchbaseProvider = {
+			couchbaseCacheboxProvider = {
 				caches : { 
 					"template" : {
-						provider 	: "couchbaseprovider.models.CouchbaseColdBoxProvider",
+						provider 	: "couchbaseCacheboxProvider.models.CouchbaseColdBoxProvider",
 						properties 	: {
-							objectDefaultTimeout : 15,
-							opQueueMaxBlockTime : 5000,
-							opTimeout : 5000,
-							timeoutExceptionThreshold : 5000,
 							ignoreCouchBaseTimeouts : true,				
 							bucket:"default",
 							password:"",
@@ -97,12 +93,17 @@
 						}
 					},
 					"couchbase" : {
-						provider 	: "couchbaseprovider.models.CouchbaseProvider",
+						provider 	: "couchbaseCacheboxProvider.models.CouchbaseProvider",
 						properties 	: {
-							objectDefaultTimeout : 15,
-							opQueueMaxBlockTime : 5000,
-							opTimeout : 5000,
-							timeoutExceptionThreshold : 5000,
+							ignoreCouchBaseTimeouts : true,				
+							bucket:"default",
+							password:"",
+							servers:"127.0.0.1:8091"
+						}
+					},
+					"couchtest" : {
+						provider 	: "couchbaseCacheboxProvider.models.CouchbaseProvider",
+						properties 	: {
 							ignoreCouchBaseTimeouts : true,				
 							bucket:"default",
 							password:"",

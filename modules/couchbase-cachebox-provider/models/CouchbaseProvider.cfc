@@ -34,10 +34,7 @@ component 	name="CouchbaseProvider"
 
 	// Provider STATIC Property Defaults
 	variables.DEFAULTS = {
-		objectDefaultTimeout      	= 30,
-		opQueueMaxBlockTime  		= 5000,
-		opTimeout                 	= 5000,
-		timeoutExceptionThreshold 	= 5000,
+		objectDefaultTimeout 		= 120,
 		ignoreCouchbaseTimeouts   	= true,
 		bucket                      = "default",
 		servers                     = "127.0.0.1:8091", // This can be an array

@@ -9,10 +9,8 @@ component {
 	this.webURL 			= "https://www.ortussolutions.com";
 	this.description 		= "Couchbase Provider for Cachebox";
 	this.version			= "@build.version@+@build.number@";
-	this.viewParentLookup 	= true;
-	this.layoutParentLookup = true;
-	this.modelNamespace		= "couchbaseProvider";
-	this.cfmapping			= "couchbaseProvider";
+	this.modelNamespace		= "couchbaseCacheBoxProvider";
+	this.cfmapping			= "couchbaseCacheBoxProvider";
 	this.dependencies 		= [ 'cfcouchbase'];
 	
 	/**
@@ -23,9 +21,9 @@ component {
 			// The default couchbase caches
 			caches = {
 				// Named cache for all coldbox event and view template caching
-				"template"	= getDefaultCacheConfig( "templateCache" ),
+				"template"	= getDefaultCacheConfig( "default" ),
 				// Default named cache
-				"couchBase"	= getDefaultCacheConfig( "defaultCache", false )
+				"couchbase"	= getDefaultCacheConfig( "default", false )
 			}
 		};
 		parseParentSettings();
@@ -66,18 +64,18 @@ component {
 	}
 
 	/**
-	* Check parent settings
+	* Check parent settings, this check is for ColdBox 4.0.0-4.2.0
 	*/
 	private function parseParentSettings(){
 		var oConfig 			= controller.getSetting( "ColdBoxConfig" );
 		var configStruct 		= controller.getConfigSettings();
-		var couchbaseSettings	= oConfig.getPropertyMixin( "couchbase", "variables", {} );
+		var couchbaseSettings	= oConfig.getPropertyMixin( "couchbaseCacheBoxProvider", "variables", {} );
 			
 		// default config struct
-		configStruct.couchbase = variables.settings;
+		configStruct.couchbaseCacheBoxProvider = variables.settings;
 
 		// Incorporate user settings
-		structAppend( configStruct.couchbase, couchbaseSettings, true );
+		structAppend( configStruct.couchbaseCacheBoxProvider, couchbaseSettings, true );
 	}
 
 	/**
@@ -88,19 +86,14 @@ component {
 	*/
 	private struct function getDefaultCacheConfig( required string bucketName = "default", boolean coldbox = false ){
 		return {
-			"provider" 		: "CouchbaseProvider.models." & ( arguments.coldbox ? "CouchbaseColdboxProvider" : "CouchbaseProvider" ),
+			"provider" 		: "#modulemapping#.models." & ( arguments.coldbox ? "CouchbaseColdboxProvider" : "CouchbaseProvider" ),
 			"properties"	: {
-				objectDefaultTimeout          	: 120,
-				objectDefaultLastAccessTimeout	: 30,
-				useLastAccessTimeouts         	: true,
-				freeMemoryPercentageThreshold 	: 0,
-				reapFrequency                 	: 5,
-				evictionPolicy                	: "LRU",
-				evictCount                    	: 2,
-				maxObjects                    	: 300,
-				objectStore                   	: "ConcurrentSoftReferenceStore", //memory sensitive
-				bucket                        	: arguments.bucketName,
-				servers							: "127.0.0.1:8091"
+				objectDefaultTimeout    : 120,
+				ignoreCouchbaseTimeouts : true,
+				bucket                  : arguments.bucketName,
+				servers					: "127.0.0.1:8091",
+				username				: "",
+				password				: ""
 			}
 		};
 

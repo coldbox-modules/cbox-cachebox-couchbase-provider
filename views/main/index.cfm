@@ -9,4 +9,7 @@
 </ul>
 
 <cfdump var="#prc.data#">
+
+<h1>Caches Defined</h1>
+<cfdump var="#cachebox.getCaches().keyArray()#">
 </cfoutput>
