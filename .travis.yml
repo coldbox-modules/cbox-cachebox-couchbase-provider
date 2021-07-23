@@ -13,7 +13,7 @@ branches:
    only: 
    - development
    - master
-dist: trusty
+
 sudo: required
 before_install: 
 - curl -fsSl https://downloads.ortussolutions.com/debs/gpg | sudo apt-key add -
