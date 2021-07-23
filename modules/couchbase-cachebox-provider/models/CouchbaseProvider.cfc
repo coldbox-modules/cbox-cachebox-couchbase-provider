@@ -53,11 +53,11 @@ component 	name="CouchbaseProvider"
     */
 	function init(){
 
-		if( directoryExists( '/coldbox/system/' ) ) {
+		if( directoryExists( expandpath( '/coldbox/system/' ) ) ) {
 			classPrefix = 'coldbox';
-		} else if( directoryExists( '/wirebox/system/' ) ) {
+		} else if( directoryExists( expandpath( '/wirebox/system/' ) ) ) {
 			classPrefix = 'wirebox';
-		} else if( directoryExists( '/cachebox/system/' ) ) {
+		} else if( directoryExists( expandpath( '/cachebox/system/' ) ) ) {
 			classPrefix = 'cachebox';
 		} else {
 			throw( 'Could not find coldbox, wirebox, or cachebox installed.  Please check your CF Mappings.' );
