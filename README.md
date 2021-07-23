@@ -47,7 +47,7 @@ This provider also comes with two cache implementations you can use when definin
 moduleSettings = {
 
 	// Provider Configuration Settings
-	couchbaseCacheBoxProvider = {
+	couchbaseProvider = {
 		// Register all the custom named caches you like here using CacheBox Syntax
 		// https://cachebox.ortusbooks.com/content/cachebox_configuration/caches.html
 		caches : { 

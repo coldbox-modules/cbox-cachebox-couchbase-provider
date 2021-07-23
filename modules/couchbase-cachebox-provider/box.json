@@ -19,7 +19,7 @@
         "Jon Clausen <jon_clausen@silowebworks.com>"
     ],
     "dependencies": {
-        "cfcouchbase": "^2.1.0"
+        "cfcouchbase": "^3.0.0-snapshot"
     },
     "ignore": [
         "**/.*",

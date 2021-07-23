@@ -7,10 +7,8 @@ env:
    - MODULE_ID=couchbase-cachebox-provider
    matrix: 
    - ENGINE=lucee@5
-   - ENGINE=lucee@4.5
    - ENGINE=adobe@2018
-   - ENGINE=adobe@2016
-   - ENGINE=adobe@11
+   - ENGINE=adobe@2021
 branches: 
    only: 
    - development
@@ -46,7 +44,7 @@ deploy:
       branch: 
       - master
       - development
-      condition: $ENGINE = lucee@4.5
+      condition: $ENGINE = lucee@5
    skip_cleanup: true
    access_key_id: $AWS_ACCESS_KEY
    secret_access_key: $AWS_ACCESS_SECRET
@@ -59,7 +57,7 @@ deploy:
       branch: 
       - master
       - development
-      condition: $ENGINE = lucee@4.5
+      condition: $ENGINE = lucee@5
    skip_cleanup: true
    access_key_id: $AWS_ACCESS_KEY
    secret_access_key: $AWS_ACCESS_SECRET

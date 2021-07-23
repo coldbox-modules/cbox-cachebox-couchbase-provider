@@ -12,7 +12,8 @@ cluster of Couchbase nodes for a distributed and highly scalable cache store.
 */
 component 	name="CouchbaseProvider" 
 			serializable="false" 
-			implements="coldbox.system.cache.ICacheProvider"
+			// This is commented so the cache can work in ColdBox, CacheBox standalone, or WireBox standalone
+			//	implements="coldbox.system.cache.ICacheProvider"
 			accessors=true
 {
 
@@ -31,10 +32,15 @@ component 	name="CouchbaseProvider"
 	property name="elementCleaner";
 	property name="utility";
 	property name="UUIDHelper";
+	// coldbox, wirebox, or cachebox depending on installation mode
+	property name="classPrefix";
 
 	// Provider STATIC Property Defaults
 	variables.DEFAULTS = {
-		objectDefaultTimeout 		= 120,
+		objectDefaultTimeout      	= 30,
+		opQueueMaxBlockTime  		= 5000,
+		opTimeout                 	= 5000,
+		timeoutExceptionThreshold 	= 5000,
 		ignoreCouchbaseTimeouts   	= true,
 		bucket                      = "default",
 		servers                     = "127.0.0.1:8091", // This can be an array
@@ -44,12 +50,18 @@ component 	name="CouchbaseProvider"
 
 	/**
     * Constructor
-	* @wirebox The reference to wirebox
-	* @wirebox.inject wirebox
     */
-	function init( required wirebox ){
-		// Store wirebox
-		variables.wirebox 	= arguments.wirebox;
+	function init(){
+
+		if( directoryExists( '/coldbox/system/' ) ) {
+			classPrefix = 'coldbox';
+		} else if( directoryExists( '/wirebox/system/' ) ) {
+			classPrefix = 'wirebox';
+		} else if( directoryExists( '/cachebox/system/' ) ) {
+			classPrefix = 'cachebox';
+		} else {
+			throw( 'Could not find coldbox, wirebox, or cachebox installed.  Please check your CF Mappings.' );
+		}
 		
 		// provider name
 		name 				= "";
@@ -70,13 +82,13 @@ component 	name="CouchbaseProvider"
 		// the cache identifier for this provider
 		cacheID				= createObject('java','java.lang.System' ).identityHashCode( this );
 		// Element Cleaner Helper
-		elementCleaner		= variables.wirebox.getInstance( name="coldbox.system.cache.util.ElementCleaner", initArguments={ cacheProvider = this } );
+		elementCleaner		= createObject( "#classPrefix#.system.cache.util.ElementCleaner" ).init( cacheProvider = this );
 		// Utilities
-		utility				= variables.wirebox.getInstance("coldbox.system.core.util.Util" );
+		utility				= createObject( "#classPrefix#.system.core.util.Util" );
 		// our UUID creation helper
 		uuidHelper			= createobject( "java", "java.util.UUID");
 		// For serialization of complex values
-		converter			= variables.wirebox.getInstance( "coldbox.system.core.conversion.ObjectMarshaller" ).init();
+		converter			= createObject( "#classPrefix#.system.core.conversion.ObjectMarshaller" ).init();
 		
 		return this;
 	}
@@ -155,17 +167,14 @@ component 	name="CouchbaseProvider"
 		
 			// Prepare the logger
 			variables.logger = getCacheFactory().getLogBox().getLogger( this );
-			variables.logger.debug( "Starting up Provider Cache: #getName()# with configuration: #config.toString()#" );
+			variables.logger.debug( "Starting up Couchbase Provider Cache: #getName()# with configuration: #config.toString()#" );
 			
 			// Validate the configuration
 			validateConfiguration();	
 			
 			try{
 				// Build a CouchbaseClient according to configurations
-				variables.couchbaseClient = wirebox.getInstance( 
-					name="cfcouchbase.CouchbaseClient", 
-					initArguments={ config = config }
-				);
+				variables.couchbaseClient = createObject( "cfcouchbase.CouchbaseClient" ).init( config = config );
 
 				// Ensure our cache views are created
 				ensureViewExists();
@@ -209,10 +218,7 @@ component 	name="CouchbaseProvider"
 	* @colddoc:generic coldbox.system.cache.util.ICacheStats
 	*/
 	any function getStats() output="false" {
-		return wirebox.getInstance( 
-			name 			= "couchbaseprovider.models.CouchbaseStats", 
-			initArguments 	= { cacheProvider = this } 
-		);
+		return {};
 	}
 	
 	/**
@@ -391,12 +397,15 @@ component 	name="CouchbaseProvider"
 		
 		try {
     		// local.object will always come back as a string
-    		var object = getCouchbaseClient().get( javacast( "string", arguments.objectKey ) );
+    		var object = getCouchbaseClient().get( id=arguments.objectKey, deserialize=false );
 			
 			// item is no longer in cache, return null
 			if( isNull( object ) ){
 				return;
 			}
+			
+			//fix for serialization issue
+			//object = object.Left(-1).Right(-1);
 			
 			// return if not our JSON
 			if( !isJSON( object ) ){
@@ -485,7 +494,7 @@ component 	name="CouchbaseProvider"
 			couchbaseData 					= setData
 		};		
 
-		getEventManager().processState( state="afterCacheElementInsert", interceptData=iData, async=true );
+		getEventManager().announce( state="afterCacheElementInsert", interceptData=iData, async=true );
 		
 		return setData;
 	}	
@@ -548,6 +557,45 @@ component 	name="CouchbaseProvider"
 	}	
 		
 	/**
+    * Tries to get an object from the cache, if not found, it calls the 'produce' closure
+    * to produce the data and cache it
+    */
+	any function getOrSet(
+		required any objectKey,
+		required any produce,
+		any timeout=variables.configuration.objectDefaultTimeout,
+		any lastAccessTimeout="0", // Not used for this provider
+		any extra=structNew()
+	) {
+
+	var refLocal = {
+			object = get( arguments.objectKey )
+		};
+	// Verify if it exists? if so, return it.
+	if( structKeyExists( refLocal, "object" ) ){ return refLocal.object; }
+	
+	// else, produce it
+	lock name="Provider.config.GetOrSet.#variables.cacheID#.#arguments.objectKey#" type="exclusive" throwontimeout="true" timeout="20" {
+			//additional check to make sure another thread hasn't created it yet inside a different lock
+			refLocal.object = get( arguments.objectKey );
+			if( not structKeyExists( refLocal, "object" ) ){
+				// produce it
+				refLocal.object = arguments.produce();
+				// store it
+				set( objectKey=arguments.objectKey,
+					 object=refLocal.object,
+					 timeout=arguments.timeout,
+					 lastAccessTimeout=arguments.lastAccessTimeout,
+					 extra=arguments.extra );
+			}
+
+		}
+
+		return refLocal.object;
+
+	}
+		
+	/**
     * get cache size
     */
     any function getSize() output="false" {
@@ -577,7 +625,7 @@ component 	name="CouchbaseProvider"
 		};
 		
 		// notify listeners		
-		getEventManager().processState( "afterCacheClearAll", iData );
+		getEventManager().announce( "afterCacheClearAll", iData );
 	}
 	
 	/**
@@ -596,9 +644,9 @@ component 	name="CouchbaseProvider"
 			cacheObjectKey 		= arguments.objectKey,
 			couchbaseResults	= results
 		};		
-		getEventManager().processState( state="afterCacheElementRemoved", interceptData=iData, async=true );
+		getEventManager().announce( state="afterCacheElementRemoved", interceptData=iData, async=true );
 		
-		return future;
+		return results;
 	}
 	
 	/**
