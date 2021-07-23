@@ -4,7 +4,7 @@
     "author": "Ortus Solutions.com <info@ortussolutions.com>",
     "slug": "couchbase-cachebox-provider",
     "type": "modules",
-    "location": "http://downloads.ortussolutions.com/ortussolutions/coldbox-modules/couchbase-provider/@build.version@/couchbase-provider-@build.version@.zip",
+    "location": "http://downloads.ortussolutions.com/ortussolutions/coldbox-modules/couchbase-cachebox-provider/@build.version@+@build.number@/couchbase-cachebox-provider-@build.version@+@build.number@.zip",	
     "homepage": "https://github.com/coldbox-modules/cbox-cachebox-couchbase-provider",
     "documentation": "https://github.com/coldbox-modules/cbox-cachebox-couchbase-provider/wiki",
     "bugs": "https://github.com/coldbox-modules/cbox-cachebox-couchbase-provider/issues",
