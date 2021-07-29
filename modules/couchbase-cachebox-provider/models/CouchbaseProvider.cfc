@@ -617,11 +617,10 @@ component 	name="CouchbaseProvider"
 		// If flush is not enabled for this bucket, no error will be thrown.  The call will simply return and nothing will happen.
 		// Be very careful calling this.  It is an intensive asynch operation and the cache won't receive any new items until the flush
 		// is finished which might take a few minutes.
-		var future = getCouchbaseClient().flush();		
+		getCouchbaseClient().flush();		
 				 
 		var iData = {
-			cache			= this,
-			couchbaseFuture = future
+			cache = this
 		};
 		
 		// notify listeners		
