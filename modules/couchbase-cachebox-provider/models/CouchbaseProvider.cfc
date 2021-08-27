@@ -38,9 +38,7 @@ component 	name="CouchbaseProvider"
 	// Provider STATIC Property Defaults
 	variables.DEFAULTS = {
 		objectDefaultTimeout      	= 30,
-		opQueueMaxBlockTime  		= 5000,
-		opTimeout                 	= 5000,
-		timeoutExceptionThreshold 	= 5000,
+		kvTimeout                 	= 5000,
 		ignoreCouchbaseTimeouts   	= true,
 		bucket                      = "default",
 		servers                     = "127.0.0.1:8091", // This can be an array
@@ -736,9 +734,13 @@ component 	name="CouchbaseProvider"
 	*/
 	private boolean function isTimeoutException(required any exception){
     	return (
+			exception.type 		== 'com.couchbase.client.core.error.TimeoutException' ||
+			exception.type 		== 'com.couchbase.client.core.error.AmbiguousTimeoutException' ||
+			exception.type 		== 'com.couchbase.client.core.error.UnambiguousTimeoutException' ||
 			exception.type 		== 'net.spy.memcached.OperationTimeoutException' || 
 			exception.message	== 'Exception waiting for value' || 
-			exception.message 	== 'Interrupted waiting for value'
+			exception.message 	== 'Interrupted waiting for value' || 
+			exception.message 	contains 'Timeout'
 		);
 	}
 	
