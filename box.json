@@ -1,26 +1,26 @@
 {
-    "name": "Couchbase Provider Builder",
-    "version": "2.0.0",
-    "slug": "couchbase-provider-shell",
-    "private": false,
-    "dependencies": {
-        "coldbox": "^4.3.0",
-        "cfcouchbase": "^2.1.0",
-        "workbench": "git+https://github.com/Ortus-Solutions/unified-workbench.git"
+    "name":"Couchbase Provider Builder",
+    "version":"2.0.1",
+    "slug":"couchbase-provider-shell",
+    "private":false,
+    "dependencies":{
+        "coldbox":"^4.3.0",
+        "cfcouchbase":"^2.1.0",
+        "workbench":"git+https://github.com/Ortus-Solutions/unified-workbench.git"
     },
-    "devDependencies": {
-        "testbox": "^2.5.0"
+    "devDependencies":{
+        "testbox":"^2.5.0"
     },
-    "testbox": {
-        "runner": "http://localhost:49616"
+    "testbox":{
+        "runner":"http://localhost:49616"
     },
-    "scripts": {
-        "postVersion": "recipe workbench/bump.boxr"
+    "scripts":{
+        "postVersion":"recipe workbench/bump.boxr"
     },
-    "installPaths": {
-        "coldbox": "coldbox/",
-        "cfcouchbase": "modules/cfcouchbase/",
-        "testbox": "testbox/",
-        "workbench": "workbench"
+    "installPaths":{
+        "coldbox":"coldbox/",
+        "cfcouchbase":"modules/cfcouchbase/",
+        "testbox":"testbox/",
+        "workbench":"workbench"
     }
 }
