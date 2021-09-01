@@ -545,8 +545,8 @@ component 	name="CouchbaseProvider"
 			if( isTimeoutException( e ) && getConfiguration().ignoreCouchbaseTimeouts) {
 				// log it
 				variables.logger.error( "Couchbase timeout exception detected: #e.message# #e.detail#", e );
-				// return null
-				return;
+				// return nothing
+				return '';
 			}
 			
 			// For any other type of exception, rethrow.
