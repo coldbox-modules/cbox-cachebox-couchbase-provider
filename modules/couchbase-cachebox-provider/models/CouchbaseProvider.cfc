@@ -435,7 +435,7 @@ component 	name="CouchbaseProvider"
 			
 			if( isTimeoutException( e ) && getConfiguration().ignoreCouchbaseTimeouts ) {
 				// log it
-				variables.logger.error( "Couchbase timeout exception detected: #e.message# #e.detail#", e );
+				variables.logger.error( "Couchbase timeout exception detected getting key [#arguments.objectKey#]: #e.message# #e.detail#", e );
 				// Return nothing as though it wasn't even found in the cache
 				return;
 			}
@@ -544,7 +544,7 @@ component 	name="CouchbaseProvider"
 			
 			if( isTimeoutException( e ) && getConfiguration().ignoreCouchbaseTimeouts) {
 				// log it
-				variables.logger.error( "Couchbase timeout exception detected: #e.message# #e.detail#", e );
+				variables.logger.error( "Couchbase timeout exception detected setting key [#arguments.objectKey#] length [#len( sElement )#]: #e.message# #e.detail#", e );
 				// return nothing
 				return '';
 			}
