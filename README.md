@@ -59,7 +59,7 @@ moduleSettings = {
 					// Ignores timeouts on Couchbase operations due to async natures
 					ignoreCouchbaseTimeouts : true,
 					// The bucketname in Couchbase to store cache entries under, the default value is 'default'
-					bucket                  : "default",
+					bucketName              : "default",
 					// The list of servers in the Couchbase cluster
 					servers					: "127.0.0.1:8091",
 					// The username for the Couchbase bucket, if any
@@ -76,7 +76,7 @@ moduleSettings = {
 					// Ignores timeouts on Couchbase operations due to async natures
 					ignoreCouchbaseTimeouts : true,
 					// The bucketname in Couchbase to store cache entries under, the default value is 'default'
-					bucket                  : "default",
+					bucketName              : "default",
 					// The list of servers in the Couchbase cluster
 					servers					: "127.0.0.1:8091",
 					// The username for the Couchbase bucket, if any

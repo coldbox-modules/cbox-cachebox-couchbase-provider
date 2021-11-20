@@ -20,13 +20,8 @@ component {
 		settings = {
 			// The default couchbase caches
 			caches = {
-				// Named cache for all coldbox event and view template caching
-				"template"	= getDefaultCacheConfig( "default" ),
-				// Default named cache
-				"couchbase"	= getDefaultCacheConfig( "default", false )
 			}
 		};
-		parseParentSettings();
 	}
 
 	/**
@@ -53,49 +48,6 @@ component {
 			}
 			cachebox.addCache( oCache );
 		}
-
-	}
-
-	/**
-	* Fired when the module is unregistered and unloaded
-	*/
-	function onUnload(){
-
-	}
-
-	/**
-	* Check parent settings, this check is for ColdBox 4.0.0-4.2.0
-	*/
-	private function parseParentSettings(){
-		var oConfig 			= controller.getSetting( "ColdBoxConfig" );
-		var configStruct 		= controller.getConfigSettings();
-		var couchbaseSettings	= oConfig.getPropertyMixin( "couchbaseCacheBoxProvider", "variables", {} );
-			
-		// default config struct
-		configStruct.couchbaseCacheBoxProvider = variables.settings;
-
-		// Incorporate user settings
-		structAppend( configStruct.couchbaseCacheBoxProvider, couchbaseSettings, true );
-	}
-
-	/**
-	* Prepare default cache configurations
-	*
-	* @bucketName The bucket name for the configuration
-	* @coldbox ColdBox enhanced provider or not, defaults to true
-	*/
-	private struct function getDefaultCacheConfig( required string bucketName = "default", boolean coldbox = false ){
-		return {
-			"provider" 		: "#modulemapping#.models." & ( arguments.coldbox ? "CouchbaseColdboxProvider" : "CouchbaseProvider" ),
-			"properties"	: {
-				objectDefaultTimeout    : 120,
-				ignoreCouchbaseTimeouts : true,
-				bucket                  : arguments.bucketName,
-				servers					: "127.0.0.1:8091",
-				username				: "",
-				password				: ""
-			}
-		};
 
 	}
 
